@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <div id="carrito-contenedor" class="container my-5">
+        <!-- Menú de Ruta -->
+        <nav class="breadcrumb">
+            <a href="index.html" class="breadcrumb-item">Inicio</a>
+            <span class="breadcrumb-item active">Carrito ({{ totalArticulos }})</span>
+        </nav>
+
+        <!-- Detalle del Carrito -->
+        <div v-if="carrito.length">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Importe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="producto in carrito" :key="producto.id">
+                        <td><img :src="producto.thumbnail" :alt="producto.title" class="img-thumbnail"></td>
+                        <td>{{ producto.title }}</td>
+                        <td>
+                            <input type="number" v-model.number="producto.cantidad" min="1" max="10" @change="actualizarCarrito(producto)">
+                        </td>
+                        <td>${{ producto.price }}</td>
+                        <td>${{ (producto.cantidad * producto.price).toFixed(2) }}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" @click="eliminarProducto(producto.id)">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="p-3 bg-light text-dark rounded">
+                <p class="bg-primary text-white p-2 rounded"><strong>Subtotal:</strong> ${{ subtotal.toFixed(2) }}</p>
+                <p class="bg-primary text-white p-2 rounded"><strong>IVA (16%):</strong> ${{ iva.toFixed(2) }}</p>
+                <p class="bg-primary text-white p-2 rounded"><strong>Total:</strong> ${{ total.toFixed(2) }}</p>
+            </div>
+        </div>
+        <div v-else>
+            <p>El carrito está vacío.</p>
+        </div>
+    </div>
+    <script src="js/vue3.js"></script>
+    <script src="js/carrito.js"></script>
+</body>
+</html>

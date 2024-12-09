@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Producto</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+    <div id="producto-contenedor" class="container my-5">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb">
+            <a href="index.html" class="breadcrumb-item" @click="regresar">Inicio</a>
+            <span class="breadcrumb-item active">{{ producto?.title }}</span>
+        </nav>
+        <button class="btn-carrito" @click="irCarrito">
+            🛒 Carrito <span class="badge bg-danger">{{ totalArticulos }}</span>
+        </button>
+        <!-- Detalle del Producto -->
+        <div v-if="producto" class="row">
+            <div class="col-md-6">
+                <img :src="producto.thumbnail" :alt="producto.title" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <h1>{{ producto.title }}</h1>
+                <p><strong>Categoría:</strong> {{ producto.category }}</p>
+                <p>{{ producto.description }}</p>
+                <p><strong>Precio:</strong> ${{ producto.price }}</p>
+
+                <!-- Cantidad -->
+                <div class="d-flex align-items-center my-4">
+                    <button class="btn btn-sm btn-danger" @click="disminuirCantidad(producto)" :disabled="producto.cantidad <= 1">-</button>
+                    <input type="number" v-model.number="producto.cantidad" class="form-control mx-2 text-center "  min="1" max="6" readonly>
+                    <button class="btn btn-sm btn-success" @click="aumentarCantidad(producto)" :disabled="producto.cantidad >= 6">+</button>
+                </div>
+
+                <!-- Botón de agregar -->
+                <button class="btn btn-primary" @click="agregarAlCarrito">Agregar al carrito</button>
+            </div>
+        </div>
+
+        <div v-else>
+            <p>No se encontró el producto. Por favor, regresa a la página principal.</p>
+        </div>
+    </div>
+
+    <script src="js/vue3.js"></script>
+    <script src="js/producto.js"></script>
+</body>
+
+</html>
